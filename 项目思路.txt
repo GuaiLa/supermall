@@ -1,0 +1,63 @@
+项目的存储库，可以通过GitHub官网来创建及上传，指令在新建存储库之后下方有指令
+
+新项目：
+   一、 划分目录结构
+1.  vue.config.js      给文件加上别名，CLI3默认会有一个别名： "@": "src"
+2.  .editorconfig      该文件是给该项目一个项目规范，文件的格式
+
+3.  src文件夹    内含文件夹有
+      3.1  assets     存放一些资源用的文件夹  比如一些css样式、img图片等
+          3.1.1  css      存放css样式表的   一般会有两个，分别是 normalize.css  和  base.css 
+              3.1.1.1      normalize.css      存放一些默认css样式
+              3.1.1.1      base.css              存放该项目需要使用的css样式
+          3.1.1  img     存放图片资源   
+       3.2  components      存放公共数据的
+          3.2.1  common      存放与大部分项目都可使用的数据
+          3.2.2  content        存放与项目紧密相关的，但属于项目的公共资源
+       3.3  network     存放网络请求相关的数据
+       3.4  router        存放路由的相关数据
+       3.5  store          存放Vuex相关的数据
+       3.6  views         存放与视图相关的数据，也一般都是些路由文件(首页、分类、购物车、我的)
+       3.7  App.vue文件       最主要的展示vue文件
+       3.8  main.js               最主要的js文件
+ 
+其他文件一般都是下载 CLI 时，会自动配置的文件，或者下载的插件文件
+  
+  二、引用了两个css文件
+  三、vue.config.js 和 .editorconfig 两个文件的配置，起别名 和 文件格式
+  四、项目的模块划分: tabbar -> 路由映射关系
+
+  五、首页开发
+      5.1  navbar的封装
+      5.2  网络数据的请求
+      5.3  请求的数据展示
+            5.3.1  轮播图                 HomeSwiper
+            5.3.2  推荐信息              RecommendView
+      5.4  滚动重构              BetterScroll    在mounted挂载之后加载
+            5.4.1  监听滚动事件        click /pullUpLoad (pullingUp)  /probeType /    
+            5.4.2  回到顶部设置        BackTop   v-show设置显示和隐藏
+            5.4.3  解决可滚动区域的问题      better-scroll 的可滚动区域是根据  scrollerHeight 属性决定的
+	      因为better-scroll 是没有把图片计算在内的，所以得用 refresh() 进行每一次图片加载完成后刷新高度
+	     监听图片加载完成 原生js： img.onload = function(){}
+			vue :     <img @load="fn"></img>
+	   因为涉及到非父子组件的通信，所以使用事件总线 $bus
+		 Vue.prototype.$bus = new Vue()
+		 this.$bus.$emit('事件名称', 参数)
+		 this.$bus.$on('事件名称', 回调函数(参数))
+            5.4.4  避免操作频繁而降低性能，进行防抖debounce /节流throttle 操作提高性能，减少refresh 刷新频繁
+		防抖 debounce /节流 throttle
+            5.4.5  上拉加载更多
+            5.4.6  获取tabControl的offsetTop 做一个tabControl的吸顶效果
+      5.5  让Home保持原来的状态
+            5.5.1  keep-alive   让Home不要随意销毁
+            5.5.2  实现了keep-alive之后，用activated 和 deactivated 保持位置。让Home中的内容保持原来的位置
+
+  六、详情页开发
+      6.1 商品图片展示
+      6.2 参数信息展示
+      6.3 评论信息展示
+         6.3.1  时间格式化   服务器返回时间戳(秒为单位的) -> date对象 -> 时间格式化(毫秒为单位)
+	yyyy-MM-dd hh:mm:ss
+      6.4 推荐数据展示
+         6.4.1  因为出现文件复用，有些代码会重复使用，所以有用到 Vue 里的 mixin 混入技术
+	创建mixin 对象： const mixin-name = { }   组件导入使用：mixins: ['mixin-name']
