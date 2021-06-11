@@ -1,6 +1,9 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img :src="showImage" alt="" @load="imageLoad">
+
+    <!-- <img :src="showImage" alt="" @load="imageLoad">
+      安装了 vue-lazyload 之后，要实现图片懒加载就得使用 v-lazy -->
+    <img v-lazy="showImage" alt="" @load="imageLoad" :key="showImage">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -20,9 +23,11 @@ export default {
       }
     }
   },
+  mounted () {
+  },
   computed: {
     showImage() {
-      return this.goodsItem.image || this.goodsItem.show.img
+      return this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
     }
   },
   methods: {
@@ -51,11 +56,14 @@ export default {
     // 监听点击，跳转详情
     itemClick() {
       this.$router.push('/detail/' + this.goodsItem.iid)
-      // query 动态获取
+
+      // let iid = this.goodsItem.iid;
+      // // query 动态获取
+
       // this.$router.push({
       //   path: "/detail",
       //   query: {
-
+      //     iid
       //   }
       // })
     }

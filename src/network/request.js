@@ -13,18 +13,34 @@ export function request(config) {
     return config
   }, err => {
     console.log(err);
-    return config;
+    return err;
   })
 
   // 2.2 响应拦截
   instance.interceptors.response.use(res => {
     return res.data
-    console.log(res.data);
   }, err => {
+    console.log('来到了response拦截failure中');
     console.log(err);
-    return config.data;
+    if (err && err.response) {
+      switch (err.response.status) {
+        case 400:
+          err.message = '请求错误'
+          break
+        case 401:
+          err.message = '未授权的访问'
+          break
+      }
+    }
+    return err
   })
 
   // 3. 发送真正的网络请求
   return instance(config)
+  // 传入对象进行网络请求
+  // instance(config).then(res => {
+  //   resolve(res)
+  // }).catch(err => {
+  //   reject(err)
+  // })
 }

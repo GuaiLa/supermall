@@ -59,9 +59,9 @@ export class Goods {
 export class GoodsParam {
   constructor(info, rule) {
     // 注： images可能没有值(某些商品有值，有些商品没有)
-    this.image = info.images ? info.images[0] : ' ' ;
-    this.info = info.set
-    this.size = rule.tables
+    this.image = info.images ? info.images[0] : '' ;
+    this.infos = info.set
+    this.sizes = rule.tables
   }
 }
 

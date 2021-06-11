@@ -3,6 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from "./store"
 
+import FastClick from "fastclick"
+import VueLazyLoad from "vue-lazyload"
+
 import toast from "components/common/toast";
 
 Vue.config.productionTip = false
@@ -12,6 +15,16 @@ Vue.prototype.$bus = new Vue()
 
 // 安装 toast 插件  (全局组件)
 Vue.use(toast)
+
+//  解决移动端的 300ms 延迟
+FastClick.attach(document.body)
+
+// 安装懒加载
+// Vue.use(VueLazyLoad)   vue-lazyload 在安装时还可导入其他的一些元素，例如占位图
+Vue.use(VueLazyLoad, {
+  // 占位图属性  loading
+  loading: require("./assets/img/common/plmm.jpg")
+})
 
 new Vue({
   render: h => h(App),

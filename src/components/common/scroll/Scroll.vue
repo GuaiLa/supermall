@@ -24,6 +24,12 @@ export default {
     pullUpLoad: {
       type: Boolean,
       default: false
+    },
+    data: {
+      type: Array,
+      default: () => {
+        return []
+      }
     }
   },
   data() {
